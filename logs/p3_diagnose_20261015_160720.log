@@ -1,0 +1,66 @@
+16:07:20 INFO script=p3_diagnose config_hash=ab29c31225 git=cf959c1 smoke=False
+16:07:31 INFO flagged-as-English blocks:
+source                                     imvo                  isigidimi             
+blocks                                <32 words     32+ words    <32 words    32+ words
+n_blocks                             96675.0000  2.717500e+04   29063.0000    13963.000
+words                               982944.0000  2.072611e+06  312535.0000  1165749.000
+flagged_blocks                       17280.0000  7.270000e+02    5863.0000      297.000
+flagged_word_share                       0.1086  2.650000e-02       0.1290        0.027
+flagged_median_eng_token_rate            0.0000  0.000000e+00       0.0000        0.000
+flagged_share_rate_under_0.05            0.9910  9.930000e-01       0.9960        0.997
+flagged_share_rate_over_0.3              0.0020  0.000000e+00       0.0010        0.000
+unflagged_median_eng_token_rate          0.0000  0.000000e+00       0.0000        0.000
+flagged_median_digit_share               0.2000  1.400000e-01       0.2350        0.149
+flagged_median_capitalised_share         0.6000  5.150000e-01       0.5560        0.317
+unflagged_median_capitalised_share       0.2630  1.880000e-01       0.2220        0.149
+both_signals_word_share(rate>=0.2)       0.0003  0.000000e+00       0.0001        0.000
+16:07:31 INFO flagged words by eng_token_rate band (blocks of 32+ words):
+source           imvo  isigidimi
+eng_token_rate                  
+(-0.01, 0.05]   54687      31281
+(0.05, 0.1]       148        144
+(0.1, 0.2]          0          0
+(0.2, 0.3]          0          0
+(0.3, 0.5]          0          0
+(0.5, 1.0]          0          0
+16:07:31 INFO flagged blocks by p_eng band:
+source        imvo  isigidimi
+p_eng                        
+(0.499, 0.6]  6101       2519
+(0.6, 0.7]    5802       1579
+(0.7, 0.8]    3981       1437
+(0.8, 0.9]    1778        580
+(0.9, 1.0]     345         45
+16:07:31 INFO by year (blocks of 32+ words):
+                flagged_word_share  both_signals_word_share
+source    year                                             
+imvo      1884              0.0142                      0.0
+          1885              0.0099                      0.0
+          1886              0.0178                      0.0
+          1887              0.0111                      0.0
+          1888              0.0395                      0.0
+          1889              0.0370                      0.0
+          1890              0.0341                      0.0
+          1891              0.0378                      0.0
+          1892              0.0133                      0.0
+          1893              0.0438                      0.0
+          1894              0.0124                      0.0
+isigidimi 1870              0.0000                      0.0
+          1871              0.0239                      0.0
+          1872              0.0000                      0.0
+          1873              0.0032                      0.0
+          1874              0.0178                      0.0
+          1875              0.0406                      0.0
+          1876              0.0107                      0.0
+          1877              0.0249                      0.0
+          1878              0.0231                      0.0
+          1879              0.0142                      0.0
+          1880              0.0204                      0.0
+          1881              0.0386                      0.0
+          1882              0.0590                      0.0
+          1883              0.0360                      0.0
+          1884              0.0432                      0.0
+          1885              0.0082                      0.0
+          1887              0.0213                      0.0
+          1888              0.0102                      0.0
+16:07:31 INFO GlotLID agreement on flagged blocks: 0.472

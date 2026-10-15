@@ -25,15 +25,15 @@ historical:
 clean: {min_block_words: 3, block_merge_if_median_below: 15}
 dedup: {minhash_threshold: 0.8, shingle: 5, num_perm: 128, exact_only_below_words: 10}
 langid: {p_eng_threshold: 0.5, glotlid_repo: cis-lmu/glotlid, glotlid_file: model.bin,
-         english_wordlist_size: 2000, block_words: 40}
+         english_wordlist_size: 2000, block_words: 40, min_eng_token_rate: 0.5}
 segment: {chunk_words: 32}
 split: {fractions: {train: 0.6, dev: 0.2, test: 0.2}, seed: 13}
 sample: {dev_per_source: 300, test_per_source: 1000, max_per_edition: 20,
          max_per_modern_doc: 5, depth_per_source: 500}
 
 modern:
-  vuk: {hf_id: dsfsi/vukuzenzele-monolingual, config: xho, eng_config: eng, text_field: auto}
-  mzansi: {hf_id: anrilombard/mzansi-text, lang_value: CHECK, max_rows: 200000}
+  vuk: {hf_id: dsfsi/vukuzenzele-monolingual, config: xho, eng_config: eng, text_field: text}
+  mzansi: {hf_id: anrilombard/mzansi-text, lang_value: xho, max_rows: 200000}
 
 lexicon: {min_freq: 2}
 

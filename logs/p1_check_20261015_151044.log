@@ -1,0 +1,5 @@
+15:10:44 INFO script=p1_check config_hash=2f5664e7bc git=cf959c1 smoke=False
+15:10:44 INFO S1 PASS isigidimi: 1,595,089 words vs published 1,619,386 (ratio 0.98)
+15:10:44 INFO S1 WARN imvo: 3,969,541 words vs published 5,473,187 (ratio 0.73)
+15:10:44 WARNING ratio near 2 = duplicated text boxes; far below 1 = missed tables/text boxes
+15:10:44 INFO S2 WARN totals {'isigidimi': 201, 'imvo': 517} (published 202/518); flagged years: ['isigidimi 1874: 8 vs ~12', 'isigidimi 1881: 8 vs ~12']

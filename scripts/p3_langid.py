@@ -49,14 +49,32 @@ def main() -> None:
     # P3.4 apply to historical blocks
     blocks = read_jsonl(P(cfg, "interim", "blocks_dedup.jsonl"))
     p_eng = predict_eng_prob(model, [b["text"] for b in blocks])
+    # P3.5 English word list (needed for the two-signal rule below)
+    lexicon = load_lexicon_file(P(cfg, "processed", "modern_lexicon.tsv"))
+    eng_words = build_english_wordlist(list(lid.loc[lid["label"] == "eng", "text"].astype(str)),
+                                       lexicon, lc["english_wordlist_size"])
+    P(cfg, "processed", "english_wordlist.txt").write_text("\n".join(sorted(eng_words)), encoding="utf-8")
+    core = ["the", "and", "of", "to", "in", "is", "that", "for", "was", "with"]
+    log.info("English word list: %d words; core function words present: %d/10",
+             len(eng_words), sum(w in eng_words for w in core))
+
+    # English = the classifier says English AND the block contains English words.
+    # (Decision 2026-10-15: the classifier alone flagged name lists, prices and old spellings.)
+    need = lc.get("min_eng_token_rate", 0.0)
+    n_clf = 0
     for b, p in zip(blocks, p_eng):
         b["p_eng"] = float(p)
-        b["lang"] = "eng" if p >= lc["p_eng_threshold"] else "xho"
+        b["eng_token_rate"] = eng_token_rate(b["text"], eng_words)
+        clf_eng = p >= lc["p_eng_threshold"]
+        n_clf += clf_eng
+        b["lang"] = "eng" if (clf_eng and b["eng_token_rate"] >= need) else "xho"
+    log.info("classifier flagged %d blocks; %d kept as English after requiring eng_token_rate >= %.2f",
+             n_clf, sum(b["lang"] == "eng" for b in blocks), need)
 
     # P3.3 independent second opinion (optional)
-    glot = None if args.smoke else load_glotlid(lc["glotlid_repo"], lc["glotlid_file"])
+    glot, why = (None, "smoke run") if args.smoke else load_glotlid(lc["glotlid_repo"], lc["glotlid_file"])
     if glot is None:
-        log.warning("GlotLID unavailable (or smoke run): P3.3 and X6.4 skipped -- log this")
+        log.warning("GlotLID unavailable (%s): P3.3 and X6.4 skipped -- log this", why)
         for b in blocks:
             b["glotlid_label"], b["glotlid_agree"] = None, None
     else:
@@ -68,15 +86,13 @@ def main() -> None:
         mask = [g in ("eng", "xho") for g in glabs]
         k = kappa([o for o, m in zip(ours, mask) if m], [g for g, m in zip(glabs, mask) if m])
         log.info("GlotLID agreement: Cohen's kappa = %.3f on %d blocks", k, sum(mask))
+        long_ = [m and b["n_words"] >= cfg["segment"]["chunk_words"] for m, b in zip(mask, blocks)]
+        if sum(long_) and len({o for o, m in zip(ours, long_) if m}) > 1:
+            k_long = kappa([o for o, m in zip(ours, long_) if m], [g for g, m in zip(glabs, long_) if m])
+            log.info("GlotLID agreement on blocks of %d+ words: kappa = %.3f on %d blocks",
+                     cfg["segment"]["chunk_words"], k_long, sum(long_))
         pd.DataFrame([{**ev, "glotlid_kappa": k}]).to_csv(P(cfg, "results", "langid_eval.csv"), index=False)
 
-    # P3.5 English words inside isiXhosa blocks
-    lexicon = load_lexicon_file(P(cfg, "processed", "modern_lexicon.tsv"))
-    eng_words = build_english_wordlist(list(lid.loc[lid["label"] == "eng", "text"].astype(str)),
-                                       lexicon, lc["english_wordlist_size"])
-    P(cfg, "processed", "english_wordlist.txt").write_text("\n".join(sorted(eng_words)), encoding="utf-8")
-    for b in blocks:
-        b["eng_token_rate"] = eng_token_rate(b["text"], eng_words)
     write_jsonl(blocks, P(cfg, "interim", "blocks_lang.jsonl"))
 
     # S3: English share by words vs the published estimates

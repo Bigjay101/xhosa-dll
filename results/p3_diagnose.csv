@@ -1,0 +1,5 @@
+source,blocks,n_blocks,words,flagged_blocks,flagged_word_share,flagged_median_eng_token_rate,flagged_share_rate_under_0.05,flagged_share_rate_over_0.3,unflagged_median_eng_token_rate,flagged_median_digit_share,flagged_median_capitalised_share,unflagged_median_capitalised_share,both_signals_word_share(rate>=0.5)
+imvo,<32 words,96675,982944,17280,0.1086,0.0,0.677,0.083,0.0,0.2,0.6,0.263,0.0013
+imvo,32+ words,27175,2072611,727,0.0265,0.043,0.553,0.007,0.0,0.14,0.515,0.188,0.0
+isigidimi,<32 words,29063,312535,5863,0.129,0.0,0.746,0.056,0.0,0.235,0.556,0.222,0.0007
+isigidimi,32+ words,13963,1165749,297,0.027,0.016,0.862,0.01,0.0,0.149,0.317,0.149,0.0

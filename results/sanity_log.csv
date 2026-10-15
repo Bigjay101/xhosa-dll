@@ -1,0 +1,15 @@
+date,check_id,status,detail
+2026-10-15T15:10:44,S1,PASS,"isigidimi: 1,595,089 words vs published 1,619,386 (ratio 0.98)"
+2026-10-15T15:10:44,S1,WARN,"imvo: 3,969,541 words vs published 5,473,187 (ratio 0.73)"
+2026-10-15T15:10:44,S2,WARN,"totals {'isigidimi': 201, 'imvo': 517} (published 202/518); flagged years: ['isigidimi 1874: 8 vs ~12', 'isigidimi 1881: 8 vs ~12']"
+2026-10-15T15:47:05,S3,PASS,isigidimi: English share 0.049 vs published 0.012
+2026-10-15T15:47:05,S3,WARN,imvo: English share 0.053 vs published 0.272
+2026-10-15T16:07:19,S3,PASS,isigidimi: English share 0.049 vs published 0.012
+2026-10-15T16:07:19,S3,WARN,imvo: English share 0.053 vs published 0.272
+2026-10-15T16:31:12,S3,PASS,isigidimi: English share 0.049 vs published 0.012
+2026-10-15T16:31:12,S3,WARN,imvo: English share 0.053 vs published 0.272
+2026-10-15T16:41:21,S3,PASS,isigidimi: English share 0.049 vs published 0.012
+2026-10-15T16:41:21,S3,WARN,imvo: English share 0.053 vs published 0.272
+2026-10-15T16:46:59,S3,PASS,isigidimi: English share 0.000 vs published 0.012
+2026-10-15T16:46:59,S3,WARN,imvo: English share 0.000 vs published 0.272
+2026-10-15T16:49:18,S4,PASS,"max splits per edition 1; texts in >1 split 0; word shares {'dev': 0.204, 'test': 0.2, 'train': 0.595}"

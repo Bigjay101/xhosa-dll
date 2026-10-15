@@ -77,7 +77,7 @@ def parse_edition_meta(filename: str, core_xml: str | bytes | None,
                        first_paragraphs: list[str],
                        year_range: tuple[int, int] = (1870, 1894)) -> dict:
     """Return {date (YYYY-MM-DD | YYYY-MM | YYYY | None), year, month, meta_source}."""
-    found = _from_text(filename.replace(".docx", ""), year_range)
+    found = _from_text(re.sub(r"\.(docx|txt)$", "", filename, flags=re.I), year_range)
     source = "filename"
     if found is None:
         m = re.search(rf"(?<!\d){YEAR_RE}(?!\d)", filename)

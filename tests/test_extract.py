@@ -1,7 +1,8 @@
 """T2 (Member A): .docx extraction including tables and text boxes."""
 from docx import Document
 
-from src.extract_docx import extract_paragraphs, extract_paragraphs_from_xml
+from src.extract_docx import (edition_id_from_path, edition_stem, extract_any, extract_paragraphs,
+                              extract_paragraphs_from_xml, page_number)
 
 W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
 MC = "http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -44,3 +45,25 @@ def test_textbox_not_duplicated_and_tabs_breaks():
     assert texts[0] == "Outer"                                # nested text not in outer paragraph
     box = [r for r in rows if r["text"].startswith("Ilizwe")][0]
     assert box["in_textbox"] and not box["in_table"]
+
+
+def test_txt_lines_and_encodings(tmp_path):
+    utf8 = tmp_path / "Imvo_1885_01_07.txt"
+    utf8.write_text("IMVO ZABANTSUNDU\r\n\r\nabantu   bonke\tngoku\nintomb\u2019omlungu\n", encoding="utf-8")
+    rows = extract_any(utf8)
+    assert [r["text"] for r in rows] == ["IMVO ZABANTSUNDU", "", "abantu bonke ngoku", "intomb\u2019omlungu", ""]
+    assert not any(r["in_table"] or r["in_textbox"] for r in rows)
+    legacy = tmp_path / "old.txt"
+    legacy.write_bytes("caf\xe9 ngoku".encode("cp1252"))
+    assert extract_any(legacy)[0]["text"] == "caf\u00e9 ngoku"
+
+
+def test_page_files_group_into_editions():
+    assert page_number("ISIG_1870-10-01_p005.txt") == 5
+    assert edition_stem("ISIG_1870-10-01_p005.txt") == "ISIG_1870-10-01"
+    a = edition_id_from_path("ISIG_1870-10-01_p005.txt", "isigidimi")
+    b = edition_id_from_path("ISIG_1870-10-01_p008.txt", "isigidimi")
+    c = edition_id_from_path("ISIG_1870-10-14_p001.txt", "isigidimi")
+    assert a == b == "isigidimi-ISIG_1870_10_01" and a != c
+    assert page_number("Imvo_1885_01_07.docx") is None
+    assert edition_id_from_path("Imvo_1885_01_07.docx", "imvo") == "imvo-Imvo_1885_01_07"

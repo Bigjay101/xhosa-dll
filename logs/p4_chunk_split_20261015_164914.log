@@ -1,0 +1,8 @@
+16:49:14 INFO script=p4_chunk_split config_hash=5cffcc8e63 git=cf959c1 smoke=False
+16:49:17 INFO 84285 chunks from 166542 isiXhosa blocks
+16:49:17 WARNING dropped 154 dev/test chunks whose text also occurs in another split
+16:49:18 INFO dev sample per source: {'imvo': 300, 'isigidimi': 300} (target 300)
+16:49:18 INFO test sample per source: {'imvo': 1000, 'isigidimi': 800} (target 1000)
+16:49:18 WARNING isigidimi: only 800 test chunks under the per-edition cap -- raise the cap and log it if this matters (P4.3)
+16:49:18 INFO S4 PASS max splits per edition 1; texts in >1 split 0; word shares {'dev': 0.204, 'test': 0.2, 'train': 0.595}
+16:49:18 INFO manifest -> /home/jtshi/school/honours/NLP/xhosa-dll/xhosa-dll/data/processed/MANIFEST.txt  (commit it; copy data/processed to the shared Drive; announce M1)

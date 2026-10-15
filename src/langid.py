@@ -43,24 +43,38 @@ def predict_eng_prob(model: Pipeline, texts: list[str]) -> np.ndarray:
 
 
 def load_glotlid(repo: str = "cis-lmu/glotlid", filename: str = "model.bin"):
-    """Return a fastText GlotLID model, or None if fasttext or the download is
-    unavailable (then P3.3 and X6.4 are skipped and logged). CHECK the file name
-    and label format on the model card."""
+    """Return (fastText GlotLID model, None) or (None, reason) if fasttext or the
+    download is unavailable (then P3.3 and X6.4 are skipped and the reason logged).
+    Install with `pip install fasttext-wheel` (or `fasttext`)."""
     try:
         import fasttext  # type: ignore
+    except ImportError:
+        return None, "fasttext not installed (pip install fasttext-wheel)"
+    try:
         from huggingface_hub import hf_hub_download
-        return fasttext.load_model(hf_hub_download(repo_id=repo, filename=filename))
-    except Exception:  # noqa: BLE001 - any failure means "not available"
-        return None
+        return fasttext.load_model(hf_hub_download(repo_id=repo, filename=filename)), None
+    except Exception as exc:  # noqa: BLE001
+        return None, f"download/load failed: {exc}"
+
+
+def _top_label(model, text: str) -> str:
+    """Top GlotLID label. Uses the low-level predictor because fastText's Python
+    wrapper crashes under NumPy 2 ('Unable to avoid copy while creating an array')."""
+    text = text.replace("\n", " ")
+    try:
+        pairs = model.f.predict(text + "\n", 1, 0.0, "strict")  # [(prob, label)]
+        return pairs[0][1] if pairs else ""
+    except AttributeError:
+        labels, _ = model.predict(text, k=1)
+        return labels[0] if labels else ""
 
 
 def glotlid_labels(model, texts: list[str]) -> list[str]:
     """Map GlotLID predictions to 'eng', 'xho' or 'other'. GlotLID labels look like
-    '__label__xho_Latn' (CHECK on the model card)."""
+    '__label__xho_Latn'."""
     out = []
     for t in texts:
-        labels, _ = model.predict(t.replace("\n", " "), k=1)
-        lab = labels[0].replace("__label__", "") if labels else ""
+        lab = _top_label(model, t).replace("__label__", "")
         out.append("eng" if lab.startswith("eng") else "xho" if lab.startswith("xho") else "other")
     return out
 
@@ -69,13 +83,20 @@ def kappa(a: list[str], b: list[str]) -> float:
     return float(cohen_kappa_score(a, b))
 
 
-def build_english_wordlist(eng_texts: list[str], xho_lexicon: Counter, size: int = 2000) -> set[str]:
-    """Top `size` English lex_keys from Vuk'uzenzele eng, minus any word that is also
-    in the modern isiXhosa lexicon (e.g. names and loan words)."""
+def build_english_wordlist(eng_texts: list[str], xho_lexicon: Counter, size: int = 2000,
+                           ratio: float = 5.0) -> set[str]:
+    """Top `size` English lex_keys from Vuk'uzenzele eng. A word is dropped only if it is
+    NOT clearly more English than isiXhosa: kept when its relative frequency in English
+    is at least `ratio` times its relative frequency in the isiXhosa lexicon. This keeps
+    'the', 'and', 'of' even if web-crawled isiXhosa text contains a few of them, and
+    drops names and loan words that are common in both."""
     counts: Counter = Counter()
     for t in eng_texts:
         counts.update(k for k in (lex_key(w) for w in t.split()) if k and not k.isdigit())
-    return {w for w, _ in counts.most_common(size) if w not in xho_lexicon}
+    n_eng = max(1, sum(counts.values()))
+    n_xho = max(1, sum(xho_lexicon.values()))
+    return {w for w, c in counts.most_common(size)
+            if c / n_eng >= ratio * xho_lexicon.get(w, 0) / n_xho}
 
 
 def eng_token_rate(text: str, eng_words: set[str]) -> float:

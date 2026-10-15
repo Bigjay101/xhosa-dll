@@ -1,0 +1,17 @@
+14:53:20 INFO script=p1_inventory config_hash=2f5664e7bc git=cf959c1 smoke=False
+14:53:20 INFO 3608 files -> /home/jtshi/school/honours/NLP/xhosa-dll/xhosa-dll/results/data_inventory.csv
+14:53:20 INFO by source/extension:
+source     extension
+imvo       .txt         2065
+isigidimi  .txt         1543
+14:53:20 INFO first file names:
+ISIG_1870-10-01_p005.txt
+ISIG_1870-10-01_p006.txt
+ISIG_1870-10-01_p007.txt
+ISIG_1870-10-01_p008.txt
+ISIG_1870-10-14_p001.txt
+ISIG_1870-10-14_p002.txt
+ISIG_1870-11-01_p004.txt
+ISIG_1870-11-01_p005.txt
+ISIG_1870-11-01_p006.txt
+ISIG_1870-11-01_p007.txt

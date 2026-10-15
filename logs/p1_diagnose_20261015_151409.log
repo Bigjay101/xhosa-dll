@@ -1,0 +1,75 @@
+15:14:09 INFO script=p1_diagnose config_hash=2f5664e7bc git=cf959c1 smoke=False
+15:14:09 INFO 1. editions with duplicate page numbers (merged issues): 0
+15:14:09 INFO 2. page-count outliers (vs median per newspaper): 5
+               edition_id       date  n_pages                                           pages
+isigidimi-ISIG_1870_10_14 1870-10-14        2                                             1,2
+isigidimi-ISIG_1875_01_01 1875-01-01       16          1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+isigidimi-ISIG_1875_02_01 1875-02-01       16          1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16
+isigidimi-ISIG_1875_03_01 1875-03-01       19 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,19,20
+     imvo-IMVO_1893_10_18 1893-10-18        1                                               4
+15:14:24 INFO 3. words per page file:
+            count    mean     std   min     5%     50%     95%     max
+source                                                                
+imvo       2065.0  1922.0  1026.0  10.0  551.0  2016.0  3481.0  7399.0
+isigidimi  1543.0  1034.0   335.0   0.0  542.0  1026.0  1496.0  4255.0
+15:14:24 INFO    imvo: 72 page files under 25% of the median (504 words); emptiest:
+                    file   w
+IMVO_1885-04-27_p004.txt  10
+IMVO_1892-12-08_p003.txt  22
+IMVO_1893-08-30_p003.txt  88
+IMVO_1885-05-18_p004.txt  94
+IMVO_1888-07-19_p003.txt 129
+IMVO_1891-12-17_p003.txt 131
+IMVO_1885-10-28_p001.txt 144
+IMVO_1884-11-03_p004.txt 150
+IMVO_1884-12-08_p004.txt 157
+IMVO_1884-11-10_p004.txt 177
+15:14:24 INFO    isigidimi: 29 page files under 25% of the median (256 words); emptiest:
+                    file  w
+ISIG_1872-07-01_p004.txt  0
+ISIG_1872-05-01_p004.txt  3
+ISIG_1873-11-01_p004.txt  7
+ISIG_1873-11-01_p005.txt  7
+ISIG_1872-01-01_p009.txt  9
+ISIG_1875-01-01_p004.txt 13
+ISIG_1875-05-01_p005.txt 17
+ISIG_1872-09-01_p004.txt 20
+ISIG_1885-09-01_p007.txt 35
+ISIG_1884-02-16_p007.txt 57
+15:14:24 INFO 4. by year:
+   source  year  editions  pages  words  words_per_page
+     imvo  1884         9     36  44535          1237.0
+     imvo  1885        49    196 281399          1436.0
+     imvo  1886        52    206 312656          1519.0
+     imvo  1887        49    194 323135          1664.0
+     imvo  1888        52    208 390653          1878.0
+     imvo  1889        50    199 349930          1759.0
+     imvo  1890        52    220 360428          1640.0
+     imvo  1891        51    202 461173          2284.0
+     imvo  1892        51    204 467472          2292.0
+     imvo  1893        53    210 486912          2321.0
+     imvo  1894        49    190 491248          2587.0
+isigidimi  1870         4     19  14370           656.0
+isigidimi  1871        12     58  48564           832.0
+isigidimi  1872        10     50  36574           749.0
+isigidimi  1873        10     64  50971           789.0
+isigidimi  1874         8     64  61993           969.0
+isigidimi  1875        12    125 139095          1058.0
+isigidimi  1876        11     89 103738          1166.0
+isigidimi  1877        12     96 114265          1190.0
+isigidimi  1878        10     80  95038          1188.0
+isigidimi  1879         9     72  79833          1109.0
+isigidimi  1880         9     74  77540          1048.0
+isigidimi  1881         8     64  63335           990.0
+isigidimi  1882        12     96 110492          1151.0
+isigidimi  1883        17    136 143324          1054.0
+isigidimi  1884        21    168 177859          1059.0
+isigidimi  1885        12     96  91169           950.0
+isigidimi  1887        12     96  93022           969.0
+isigidimi  1888        12     96  93907           978.0
+15:14:29 INFO 5. share of tokens that are common English function words (~0.25-0.30 for running English text):
+source
+imvo         0.007
+isigidimi    0.003
+15:14:29 INFO S1 gap isigidimi: 24,297 words missing, about 16 words per page over 1543 pages
+15:14:29 INFO S1 gap imvo: 1,503,646 words missing, about 728 words per page over 2065 pages

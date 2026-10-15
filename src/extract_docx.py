@@ -1,4 +1,7 @@
-"""P1.3 Paragraph extraction from layout-preserving .docx files (Member A).
+"""P1.3 Paragraph extraction from the historical files (Member A).
+
+Supports layout-preserving .docx files and plain .txt exports (see
+extract_paragraphs_txt and extract_any at the end of this module).
 
 Reads word/document.xml directly (zipfile + lxml) instead of python-docx's
 Document.paragraphs, which skips text inside tables and text boxes.
@@ -94,7 +97,57 @@ def extract_paragraphs(docx_path: str | Path) -> list[dict]:
     return extract_paragraphs_from_xml(xml)
 
 
+PAGE_RE = re.compile(r"[_\-. ]p(?:age)?[_\-]?(\d{1,4})$", re.IGNORECASE)
+
+
+def page_number(path: str | Path) -> int | None:
+    """Page number from a per-page file name, e.g. 'ISIG_1870-10-01_p005' -> 5; else None."""
+    m = PAGE_RE.search(Path(path).stem)
+    return int(m.group(1)) if m else None
+
+
+def edition_stem(path: str | Path) -> str:
+    """File stem with any page suffix removed: 'ISIG_1870-10-01_p005' -> 'ISIG_1870-10-01'."""
+    return PAGE_RE.sub("", Path(path).stem)
+
+
 def edition_id_from_path(path: str | Path, source: str) -> str:
-    """Stable edition id: '<source>-<sanitised file stem>'."""
-    stem = re.sub(r"[^A-Za-z0-9]+", "_", Path(path).stem).strip("_")
+    """Stable edition id: '<source>-<sanitised file stem without page suffix>', so all
+    pages of one edition share one id (the archive's TXT export is one file per page)."""
+    stem = re.sub(r"[^A-Za-z0-9]+", "_", edition_stem(path)).strip("_")
     return f"{source}-{stem}"
+
+
+def read_text_file(path: str | Path) -> str:
+    """Read a .txt file, trying UTF-8 (with or without BOM) first, then Windows-1252."""
+    raw = Path(path).read_bytes()
+    for enc in ("utf-8-sig", "cp1252"):
+        try:
+            return raw.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return raw.decode("utf-8", errors="replace")
+
+
+def extract_paragraphs_txt(path: str | Path) -> list[dict]:
+    """Return every line of a .txt edition as a paragraph record, in order:
+    {para_idx, text, in_table=False, in_textbox=False}. Empty lines are kept
+    (text == "") because they mark block boundaries; P2 merges short layout lines
+    into blocks exactly as for .docx."""
+    text = read_text_file(path).replace("\r\n", "\n").replace("\r", "\n")
+    return [{"para_idx": i, "text": re.sub(r"[ \t]+", " ", line).strip(),
+             "in_table": False, "in_textbox": False}
+            for i, line in enumerate(text.split("\n"))]
+
+
+SUPPORTED_SUFFIXES = (".docx", ".txt")
+
+
+def extract_any(path: str | Path) -> list[dict]:
+    """Dispatch on the file suffix: .docx -> extract_paragraphs, .txt -> extract_paragraphs_txt."""
+    suffix = Path(path).suffix.lower()
+    if suffix == ".docx":
+        return extract_paragraphs(path)
+    if suffix == ".txt":
+        return extract_paragraphs_txt(path)
+    raise ValueError(f"unsupported file type: {path}")

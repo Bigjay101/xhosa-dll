@@ -1,0 +1,9 @@
+15:20:42 INFO script=p2_clean_dedup config_hash=2f5664e7bc git=cf959c1 smoke=False
+15:21:17 INFO 274283 blocks
+15:22:51 INFO kept 166876 of 274283 blocks; removed:
+                 n_removed  words_removed
+source    kind                           
+imvo      exact      97689         688100
+          near        1159          33692
+isigidimi exact       8345          73072
+          near         214           8928

@@ -1,0 +1,5 @@
+15:45:53 INFO script=p3_langid config_hash=ab29c31225 git=cf959c1 smoke=False
+15:45:57 INFO langid held-out: {'n_train': 3399, 'n_heldout': 850, 'accuracy': 0.9988235294117647, 'f1_eng': 0.9988304093567252}
+15:46:59 WARNING GlotLID unavailable (or smoke run): P3.3 and X6.4 skipped -- log this
+15:47:05 INFO S3 PASS isigidimi: English share 0.049 vs published 0.012
+15:47:05 INFO S3 WARN imvo: English share 0.053 vs published 0.272
