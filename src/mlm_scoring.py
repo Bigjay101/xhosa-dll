@@ -7,12 +7,33 @@ from __future__ import annotations
 import pandas as pd  # noqa: F401
 
 
+
 def build_masks(word_ids: list[int | None], method: str = "l2r") -> list[list[int]]:
-    """For each non-special position i, the positions to mask:
-    l2r : {i} plus {j > i : word_ids[j] == word_ids[i]}
-    orig: {i}
-    Special positions (word_ids[i] is None) get no mask. Pure function (T8)."""
-    raise NotImplementedError("P8.1 (Member C): implement per handbook P8.1")
+    """Build masking positions for word-level pseudo-log-likelihood."""
+    # When predicting A₁, we mask A₁, A₂ and A₃. When predicting A₂, we mask A₂ and A₃. When predicting A₃, we only mask A₃.
+
+    if method not in {"l2r", "orig"}:
+        raise ValueError(f"Unknown masking method: {method}")
+
+    masks = []
+
+    for i, word_id in enumerate(word_ids):
+        if word_id is None:
+            continue
+
+        positions = [i]
+
+        if method == "l2r":
+            positions.extend(
+                j
+                for j in range(i + 1, len(word_ids))
+                if word_ids[j] == word_id
+            )
+
+        masks.append(positions)
+
+    return masks
+
 
 
 def score_mlm(model, tokenizer, texts: list[str], method: str = "l2r", batch_size: int = 64, device: str = "cuda") -> list[dict]:

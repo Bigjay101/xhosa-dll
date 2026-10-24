@@ -49,7 +49,8 @@ def test_textbox_not_duplicated_and_tabs_breaks():
 
 def test_txt_lines_and_encodings(tmp_path):
     utf8 = tmp_path / "Imvo_1885_01_07.txt"
-    utf8.write_text("IMVO ZABANTSUNDU\r\n\r\nabantu   bonke\tngoku\nintomb\u2019omlungu\n", encoding="utf-8")
+    sample = "IMVO ZABANTSUNDU\r\n\r\nabantu   bonke\tngoku\nintomb\u2019omlungu\n"
+    utf8.write_bytes(sample.encode("utf-8"))
     rows = extract_any(utf8)
     assert [r["text"] for r in rows] == ["IMVO ZABANTSUNDU", "", "abantu bonke ngoku", "intomb\u2019omlungu", ""]
     assert not any(r["in_table"] or r["in_textbox"] for r in rows)
