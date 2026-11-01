@@ -23,6 +23,17 @@ from src.config import P, load_config
 from src.lexicon import load_lexicon_file
 
 STANDARD = ["chunk_id", "cluster_id", "source", "text", "n_words_orig", "sample_rank"]
+# P8 DATA QUALITY EXCLUSION
+#
+# This M2 test chunk contains two standalone Unicode replacement characters
+# (U+FFFD) that receive no subword tokens from the XLM-R tokenizer.
+#
+# Exclude the entire chunk from every experimental condition.
+# This preserves paired comparisons across original and transformed texts.
+# The underlying frozen modern_chunks.parquet is not modified.
+UNSCORABLE_CHUNK_IDS = {
+    "M2:mzansi-test-2375:mzansi-test-2375:1",
+}
 CODE_RE = re.compile(r"^(H|M1|M2)-[a-z]+(\.[A-Za-z0-9]+)?$")
 ORIG = {"H-orig": ("hist", "test", None), "H-dev": ("hist", "dev", None),
         "M1-orig": ("modern", "test", "M1"), "M1-dev": ("modern", "dev", "M1"),
@@ -88,7 +99,11 @@ def load_condition(code: str, subset: str = "core", cfg: dict | None = None) -> 
         if not path.exists():
             raise FileNotFoundError(f"{path} not built yet (B builds it in P10.4)")
         df = pd.read_parquet(path)
+    df = df.loc[~df["chunk_id"].isin(UNSCORABLE_CHUNK_IDS)].copy()
+
+    # Preserve the original deterministic evaluation ordering.
     df = df.sort_values(["source", "sample_rank"]).reset_index(drop=True)
+
     return depth_subset(df, cfg=cfg) if subset == "depth" else df
 
 
