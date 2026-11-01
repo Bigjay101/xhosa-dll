@@ -83,6 +83,5 @@ isigidimi,1885,train,1059,33888
 isigidimi,1887,dev,287,9184
 isigidimi,1887,test,470,15040
 isigidimi,1887,train,1141,36512
-isigidimi,1888,dev,325,10400
-isigidimi,1888,test,290,9280
-isigidimi,1888,train,1265,40480
+isigidimi,1888,test,143,4576
+isigidimi,1888,train,458,14656

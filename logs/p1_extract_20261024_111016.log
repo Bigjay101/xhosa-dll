@@ -1,0 +1,14 @@
+11:10:16 INFO script=p1_extract config_hash=5cffcc8e63 git=4d94ea5 smoke=False
+11:10:18 INFO isigidimi: 1479 files ['.txt']
+11:10:18 INFO isigidimi: 193 editions (193 made of several page files)
+11:10:40 INFO imvo: 2065 files ['.txt']
+11:10:40 INFO imvo: 517 editions (516 made of several page files)
+11:11:36 INFO pages per edition by source:
+           count      mean  min   max
+source                               
+imvo       517.0  3.994197  1.0   6.0
+isigidimi  193.0  7.663212  2.0  19.0
+11:11:36 INFO 1137255 paragraphs from 710 editions; unresolved dates: 0 (0.0%)
+11:11:36 INFO date sources:
+meta_source
+filename    710

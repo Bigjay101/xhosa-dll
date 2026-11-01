@@ -51,3 +51,8 @@ Every deviation from the handbook, every CHECK resolution and every scope decisi
 - Robustness: a 0.2 cut-off instead of 0.5 changes retained words by < 0.1% per newspaper.
 - S3 WARN for Imvo explained: English columns were not in the TXT export (see P1).
 - GlotLID kappa (0.08) not reported: unstable when English is < 0.1% of blocks.
+
+
+| Date | Step | Change | Reason | Effect on Results | Who |
+|---|---|---|---|---|---|
+| 2026-10-24 | P3–P4 | Reconstructed the historical corpus from the available raw Isigidimi and Imvo newspaper files. Modified P4 to reuse the original `splits.csv` assignments rather than generating new splits. Editions absent from the original split file are excluded, and the reconstructed `hist_chunks.parquet` receives a separate SHA-256 checksum without overwriting the original `MANIFEST.txt`. | The original `hist_chunks.parquet` was unavailable. Reconstruction produced 710 editions, compared with 717 in the original split file: 709 matched, one newly extracted edition lacked a frozen split, and eight originally listed editions were unavailable. | The reconstructed corpus may differ from the original handover, affecting sample sizes and evaluation coverage. Original train/dev/test assignments are preserved to prevent split leakage. Historical language filtering also showed an unresolved discrepancy against published English-share estimates, which must be investigated and disclosed before treating results as final. | Member B/C (historical data recovery) |

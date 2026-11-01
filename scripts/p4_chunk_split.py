@@ -45,13 +45,43 @@ def main() -> None:
                                       carry=("date", "year", "p_eng", "glotlid_agree", "eng_token_rate")))
     log.info("%d chunks from %d isiXhosa blocks", len(chunks), len(blocks))
 
+    # P4.2 RECOVERY: Reuse Jordan's frozen edition assignments.
+    # This protects the original train/dev/test boundaries.
     fr = cfg["split"]["fractions"]
-    splits = split_editions(chunks[["edition_id", "source", "year"]],
-                            (fr["train"], fr["dev"], fr["test"]), seed=cfg["split"]["seed"])
-    splits.to_csv(P(cfg, "processed", "splits.csv", mkdir=True), index=False)
-    chunks = chunks.merge(splits[["edition_id", "split"]], on="edition_id", how="left")
-    chunks["cluster_id"] = chunks["edition_id"]
 
+    splits = pd.read_csv(
+        P(cfg, "processed", "splits.csv")
+    )
+
+    # Verify that each newspaper edition has exactly one assignment.
+    keys = ["source", "edition_id"]
+    if splits.duplicated(keys).any():
+        raise ValueError("Duplicate editions in frozen splits.csv")
+
+    # Join on BOTH source and edition ID, not edition ID alone.
+    chunks = chunks.merge(
+        splits[keys + ["split"]],
+        on=keys,
+        how="left",
+        validate="many_to_one",
+        indicator=True,
+    )
+
+    # Exclude editions absent from the original frozen splits.
+    # These must never be assigned arbitrary new train/test roles.
+    unmatched = chunks["_merge"] == "left_only"
+    log.warning(
+        "Excluded %d chunks with no frozen edition split",
+        int(unmatched.sum()),
+    )
+
+    chunks = chunks.loc[~unmatched].copy()
+    chunks.drop(columns=["_merge"], inplace=True)
+
+    if chunks.empty:
+        raise ValueError("No historical chunks matched the frozen splits")
+
+    chunks["cluster_id"] = chunks["edition_id"]
     # identical chunk text in two splits: keep it in train only (S4)
     dup_text = chunks.groupby("text")["split"].nunique()
     cross = set(dup_text[dup_text > 1].index)
@@ -95,8 +125,25 @@ def main() -> None:
            .agg(n_chunks=("chunk_id", "size"), n_words=("n_words", "sum")).reset_index())
     cov.to_csv(P(cfg, "results", "split_coverage.csv", mkdir=True), index=False)
     log_stage_stats(cfg, "P4 chunks", chunks)
-    log.info("manifest -> %s  (commit it; copy data/processed to the shared Drive; announce M1)",
-             write_manifest(cfg))
+    # Record the reconstructed dataset's checksum separately.
+    # Do not overwrite Jordan's original MANIFEST.txt.
+    hist_path = P(cfg, "processed", "hist_chunks.parquet")
+
+    digest = hashlib.sha256(hist_path.read_bytes()).hexdigest()
+
+    recovery_manifest = P(
+        cfg,
+        "results",
+        "hist_reconstruction_sha256.txt",
+        mkdir=True,
+    )
+
+    recovery_manifest.write_text(
+        f"{digest}  hist_chunks.parquet\n",
+        encoding="utf-8",
+    )
+
+    log.info("Reconstructed historical checksum -> %s", recovery_manifest)
 
 
 if __name__ == "__main__":
