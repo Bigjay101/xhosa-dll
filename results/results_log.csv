@@ -1,0 +1,7 @@
+run_id,date,member,step,experiment,model,condition,subset,n_chunks,metric,value,ci_lo,ci_hi,config_hash,git_commit,notes
+P8_xlmr_H-orig_core_5cffcc8e63,2026-10-31T21:26:14.323039+00:00,B/C,P8,X2,xlmr,H-orig,core,1780,mean_nll_per_word,14.247336355293386,,,5cffcc8e63,4d94ea5168c8a3837d0ea74e744fa72de6dc56fd,Descriptive mean; clustered CI pending P11
+P8_xlmr_M1-orig_core_5cffcc8e63,2026-10-31T21:27:53.834067+00:00,B/C,P8,X2,xlmr,M1-orig,core,135,mean_nll_per_word,13.443586477421727,,,5cffcc8e63,4d94ea5168c8a3837d0ea74e744fa72de6dc56fd,Descriptive mean; clustered CI pending P11
+P8_afro_H-orig_core_5cffcc8e63,2026-10-31T22:19:10.026659+00:00,B/C,P8,X2,afro,H-orig,core,1780,mean_nll_per_word,11.576293376032742,,,5cffcc8e63,4d94ea5168c8a3837d0ea74e744fa72de6dc56fd,Descriptive mean; clustered CI pending P11
+P8_afro_M1-orig_core_5cffcc8e63,2026-10-31T22:22:40.377032+00:00,B/C,P8,X2,afro,M1-orig,core,135,mean_nll_per_word,8.688945026006978,,,5cffcc8e63,4d94ea5168c8a3837d0ea74e744fa72de6dc56fd,Descriptive mean; clustered CI pending P11
+P8_xlmr_M2-orig_core_5cffcc8e63,2026-10-31T22:24:57.170879+00:00,B/C,P8,X2,xlmr,M2-orig,core,999,mean_nll_per_word,12.395838202632014,,,5cffcc8e63,4d94ea5168c8a3837d0ea74e744fa72de6dc56fd,Descriptive mean; clustered CI pending P11
+P8_afro_M2-orig_core_5cffcc8e63,2026-11-01T04:24:48.195046+00:00,B/C,P8,X2,afro,M2-orig,core,999,mean_nll_per_word,8.20894764222443,,,5cffcc8e63,4d94ea5168c8a3837d0ea74e744fa72de6dc56fd,Descriptive mean; clustered CI pending P11
