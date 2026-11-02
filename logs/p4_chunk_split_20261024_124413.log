@@ -1,0 +1,9 @@
+12:44:13 INFO script=p4_chunk_split config_hash=5cffcc8e63 git=4d94ea5 smoke=False
+12:44:16 INFO 83006 chunks from 164845 isiXhosa blocks
+12:44:16 WARNING Excluded 0 chunks with no frozen edition split
+12:44:17 WARNING dropped 154 dev/test chunks whose text also occurs in another split
+12:44:17 INFO dev sample per source: {'imvo': 300, 'isigidimi': 300} (target 300)
+12:44:17 INFO test sample per source: {'imvo': 1000, 'isigidimi': 780} (target 1000)
+12:44:17 WARNING isigidimi: only 780 test chunks under the per-edition cap -- raise the cap and log it if this matters (P4.3)
+12:44:19 INFO S4 PASS max splits per edition 1; texts in >1 split 0; word shares {'dev': 0.203, 'test': 0.202, 'train': 0.595}
+12:44:20 INFO Reconstructed historical checksum -> C:\Users\okwuk\OneDrive\Desktop\MASTERS COURSEWORK\SEMESTER 2\Natural Language Technology\Projects\xhosa-dll\results\hist_reconstruction_sha256.txt

@@ -1,0 +1,8 @@
+16:37:29 INFO script=p3_langid config_hash=ab29c31225 git=cf959c1 smoke=False
+16:37:33 INFO langid held-out: {'n_train': 3399, 'n_heldout': 850, 'accuracy': 0.9988235294117647, 'f1_eng': 0.9988304093567252}
+16:38:38 INFO English word list: 1866 words; core function words present: 10/10
+16:38:38 INFO classifier flagged 24167 blocks; 24167 kept as English after requiring eng_token_rate >= 0.00
+16:41:18 INFO GlotLID agreement: Cohen's kappa = 0.624 on 128443 blocks
+16:41:18 INFO GlotLID agreement on blocks of 32+ words: kappa = 0.370 on 39561 blocks
+16:41:21 INFO S3 PASS isigidimi: English share 0.049 vs published 0.012
+16:41:21 INFO S3 WARN imvo: English share 0.053 vs published 0.272

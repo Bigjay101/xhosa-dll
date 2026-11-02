@@ -1,0 +1,12 @@
+version: 1
+seed: 13
+accepted_families:
+- ASP
+- BH
+min_support: 10
+max_edits_per_word: 2
+include_other: false
+rewrite_table_sha256: a3bff3e02567303274acb928fa49db0a893fbd75f59130b9a0712dbcf266bb9b
+method: train candidate dictionary; family-level context validation; H-dev OOV tuning
+limitations: Individual pair meanings unverified; no generalized regex rewrites; WD
+  excluded

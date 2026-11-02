@@ -1,0 +1,7 @@
+12:06:15 INFO script=p3_langid config_hash=5cffcc8e63 git=4d94ea5 smoke=False
+12:06:19 INFO langid held-out: {'n_train': 3399, 'n_heldout': 850, 'accuracy': 0.9988235294117647, 'f1_eng': 0.9988304093567252}
+12:07:45 INFO English word list: 1866 words; core function words present: 10/10
+12:07:49 INFO classifier flagged 24005 blocks; 334 kept as English after requiring eng_token_rate >= 0.50
+12:07:49 WARNING GlotLID unavailable (fasttext not installed (pip install fasttext-wheel)): P3.3 and X6.4 skipped -- log this
+12:07:51 INFO S3 PASS isigidimi: English share 0.000 vs published 0.012
+12:07:51 INFO S3 WARN imvo: English share 0.000 vs published 0.272

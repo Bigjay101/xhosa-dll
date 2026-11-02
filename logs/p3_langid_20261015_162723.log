@@ -1,0 +1,5 @@
+16:27:23 INFO script=p3_langid config_hash=ab29c31225 git=cf959c1 smoke=False
+16:27:27 INFO langid held-out: {'n_train': 3399, 'n_heldout': 850, 'accuracy': 0.9988235294117647, 'f1_eng': 0.9988304093567252}
+16:31:06 INFO GlotLID agreement: Cohen's kappa = 0.624 on 128443 blocks
+16:31:12 INFO S3 PASS isigidimi: English share 0.049 vs published 0.012
+16:31:12 INFO S3 WARN imvo: English share 0.053 vs published 0.272

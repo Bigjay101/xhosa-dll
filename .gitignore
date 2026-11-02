@@ -1,4 +1,15 @@
 data/
 models/
 results/scores
+.venv/
+.venv-nlp/
 
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Pytest cache
+.pytest_cache/
+
+# Generated execution logs
+logs/*.log

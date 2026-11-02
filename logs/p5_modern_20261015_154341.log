@@ -1,0 +1,11 @@
+15:43:41 INFO script=p5_modern config_hash=ab29c31225 git=cf959c1 smoke=False
+15:43:59 INFO Vuk'uzenzele xho rows 181, eng rows 150
+15:44:11 INFO MzansiText validation isiXhosa rows 3452
+15:44:23 INFO MzansiText test isiXhosa rows 3296
+15:44:26 INFO lexicon: 75254 types from 3606 lexicon-role documents
+15:44:27 INFO modern chunks by source/role:
+source  role
+M1      dev      130
+        test     135
+M2      dev      300
+        test    1000

@@ -1,0 +1,3 @@
+15:39:34 INFO script=p5_modern config_hash=2f5664e7bc git=cf959c1 smoke=False
+15:39:56 INFO MzansiText lang values: {'xho': 3452, 'tsn': 2722, 'ven': 291, 'tso': 482, 'ssw': 288, 'sot': 3984, 'zul': 3405, 'nso': 1249, 'afr': 1614, 'eng': 1807, 'nbl': 85}
+15:39:56 INFO set modern.mzansi.lang_value in config.yaml to the isiXhosa code and log it

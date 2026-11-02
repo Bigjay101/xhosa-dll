@@ -1,0 +1,30 @@
+15:33:00 INFO script=p2_diagnose config_hash=2f5664e7bc git=cf959c1 smoke=False
+15:33:21 INFO 1. page files (>=50 words) identical to another page file: 4
+15:33:21 INFO    same text: IMVO_1885-03-02_p002.txt, IMVO_1885-03-02_p004.txt
+15:33:21 INFO    same text: IMVO_1886-01-06_p002.txt, IMVO_1886-01-20_p003.txt
+15:33:26 INFO 2-5. exact-duplicate summary:
+source                                    imvo    isigidimi
+blocks                              222698.000    51585.000
+words                              3777347.000  1560284.000
+removed_exact_blocks                 97555.000     8326.000
+removed_exact_words                 687633.000    72998.000
+removed_share_of_words                   0.182        0.047
+removed_blocks_under_10w                 0.835        0.763
+removed_words_in_blocks_under_10w        0.556        0.448
+median_removed_block_words               5.000        5.000
+keys_2_copies                         5558.000     1613.000
+keys_3_10_copies                      6205.000     1515.000
+keys_over_10_copies                   2383.000      117.000
+keys_over_100_copies                    79.000        1.000
+share_copies_within_same_edition         0.030        0.121
+within_edition_copies_20w_plus          13.000       28.000
+median_span_days                        42.000       59.000
+share_keys_spanning_over_365_days        0.125        0.106
+15:33:26 INFO removed exact-duplicate words by block length:
+source    imvo  isigidimi
+band                     
+3-4     160092      10880
+5-9     221905      22382
+10-19   147255      17038
+20-49   120246      17471
+50+      38135       5789
